@@ -1,0 +1,24 @@
+<!--
+  ~ Date: 01-25
+  ~ Neoptera SPA - Chile Copyright (c) 2016.
+  -->
+
+
+<ivysettings>
+    <properties file="build.properties"/>
+    <credentials host="artifactory.neoptera.cl" realm="Artifactory Realm" username="${artifactory.user}" passwd="${artifactory.password}"/>
+
+    <settings defaultResolver="neoptera"/>
+
+    <resolvers>
+        <chain name="neoptera">
+            <url name="mvn-artifact" m2compatible="false">
+                <artifact pattern="http://repo1.maven.org/maven2/[orgPath]/[artifact]/[revision]/[artifact]-[revision].[ext]"/>
+            </url>
+        </chain>
+    </resolvers>
+
+    <modules>
+        <module organisation="cl.neoptera" name="artifactory-neoptera" resolver="neoptera"/>
+    </modules>
+</ivysettings>

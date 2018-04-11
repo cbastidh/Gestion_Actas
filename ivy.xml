@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  ~ Date: 7-24
+  ~ Time: 6:36
+  ~ Neoptera SPA - Chile Copyright (c) 2014.
+  -->
+
+<ivy-module version="2.0" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <info organisation="neoptera" module="neoptera-gactass" />
+
+    <configurations>
+        <conf name="default" description="using default ivy configuration"></conf>
+        <conf name="core" visibility="private" />
+        <conf name="compile" extends="core" transitive="false" visibility="private" />
+        <conf name="runtime" extends="compile" description="everything needed to run this module" />
+        <conf name="neopteracore" description="Neoptera Library" />
+    </configurations>
+
+    <dependencies>
+        <dependency transitive="false" org="javax.servlet" name="javax.servlet-api" rev="3.0.1" conf="default"/>
+        <dependency transitive="false" org="org.glassfish" name="javax.ejb" rev="3.1.1" conf="default"/>
+        <dependency transitive="false" org="org.glassfish" name="javax.annotation" rev="3.1.1" conf="default"/>
+        <dependency transitive="false" org="javax.interceptor" name="javax.interceptor-api" rev="1.2-b03" conf="default"/>
+
+
+        <!-- Hibernate -->
+        <dependency transitive="false" org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api" rev="1.0.1.Final" conf="default"/>
+        <dependency transitive="false" org="org.hibernate" name="hibernate-core" rev="4.1.12.Final" conf="default"/>
+        <dependency transitive="false" org="org.hibernate" name="hibernate-entitymanager" rev="4.1.12.Final" conf="default"/>
+        <dependency transitive="false" org="org.hibernate.common" name="hibernate-commons-annotations" rev="4.0.2.Final"/>
+        <dependency transitive="false" org="org.jboss.logging" name="jboss-logging" rev="3.3.0.Final" conf="default"/>
+        <dependency transitive="false" org="dom4j" name="dom4j" rev="1.6.1" conf="default"/>
+        <dependency transitive="false" org="org.javassist" name="javassist" rev="3.16.1-GA" conf="default"/>
+
+
+
+        <!--librerias comunes-->
+        <dependency transitive="false" org="commons-io" name="commons-io" rev="2.4" conf="default"/>
+        <dependency transitive="false" org="org.slf4j" name="jcl-over-slf4j" rev="1.6.1" conf="default"/>
+        <dependency transitive="false" org="ch.qos.logback" name="logback-classic" rev="1.0.9" conf="default"/>
+        <dependency transitive="false" org="junit" name="junit" rev="4.11" conf="default"/>
+
+        <!-- librerias de spring core -->
+        <dependency transitive="false" org="org.springframework" name="spring-aop" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.aspectj" name="aspectjrt" rev="1.8.1" conf="default"/>
+        <dependency transitive="false" org="org.aspectj" name="aspectjweaver" rev="1.8.1" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-aspects" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-beans" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-context" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-context-support" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-expression" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-instrument" rev="4.2.4.RELEASE" conf="default"/>
+        <dependency transitive="false" org="org.springframework" name="spring-tx" rev="4.2.4.RELEASE"/>
+        <dependency transitive="false" org="org.springframework" name="spring-web" rev="4.2.4.RELEASE"/>
+        <dependency transitive="false" org="org.springframework" name="spring-core" rev="4.2.4.RELEASE"/>
+        <dependency transitive="false" org="org.springframework" name="spring-webmvc" rev="4.2.4.RELEASE"/>
+        <dependency transitive="false" org="org.springframework" name="spring-test" rev="4.2.4.RELEASE"/>
+
+
+        <!-- spring ldap integration -->
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-ldap" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-core" rev="4.0.3.RELEASE"/>
+
+        <!-- spring security -->
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-core" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-aspects" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-config" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-ldap" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.ldap" name="spring-ldap-core" rev="2.0.4.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-taglibs" rev="4.0.3.RELEASE"/>
+        <dependency transitive="false" org="org.springframework.security" name="spring-security-web" rev="4.0.3.RELEASE"/>
+
+        <!-- Support for gson and slf4j -->
+        <dependency transitive="false" org="com.google.code.gson" name="gson" rev="2.5"/>
+        <dependency transitive="false" org="com.google.guava" name="guava" rev="19.0"/>
+        <dependency transitive="false" org="org.slf4j" name="slf4j-api" rev="1.7.6"/>
+        <dependency transitive="false" org="org.slf4j" name="slf4j-log4j12" rev="1.7.6"/>
+        <dependency transitive="false" org="cglib" name="cglib-nodep" rev="3.0"/>
+        <dependency transitive="false" org="aopalliance" name="aopalliance" rev="1.0"/>
+
+        <dependency transitive="false" org="log4j" name="log4j" rev="1.2.17"/>
+
+
+        <!-- compatibilidad con rdic por http -->
+        <dependency transitive="false" org="commons-httpclient" name="commons-httpclient" rev="3.1"/>
+        <dependency transitive="false" org="commons-codec" name="commons-codec" rev="1.2"/>
+        <dependency transitive="false" org="commons-logging" name="commons-logging" rev="1.0.4"/>
+
+        <dependency transitive="false" org="org.apache.commons" name="commons-compress" rev="1.11"/>
+
+    </dependencies>
+</ivy-module>

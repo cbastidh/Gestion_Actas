@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <bean id="propertiesUtil" class="cl.bice.gestionactas.ejb.factory.PropertiesUtil">
+        <property name="propertyLocationSystemProperty" value="DOMAIN_HOME" />
+		<property name="defaultPropertyFileName" value="gestionactas-ejb-context.properties" />
+		<property name="ignoreResourceNotFound" value="false"/>
+    </bean>
+
+    <bean id="menuDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.MenuDAO"/>
+    </bean>
+
+    <bean id="tipoDocumentoDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.TipoDocumentoDAO"/>
+    </bean>
+
+    <bean id="tipoUsuarioDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.TipoUsuarioDAO"/>
+    </bean>
+
+    <bean id="tipoCorporacionDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.TipoCorporacionDAO"/>
+    </bean>
+
+    <bean id="documentoDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.DocumentoDAO"/>
+    </bean>
+
+    <bean id="userDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.UserDAO"/>
+    </bean>
+
+    <bean id="userDocumentVisibilityDAO" class="cl.neoptera.ejb.dao.jpa.spring.GenericDAOFactoryBean">
+        <property name="interface" value="cl.bice.gestionactas.ejb.dao.UserDocumentVisibilityDAO"/>
+    </bean>
+
+    <!-- Bean para seguridad -->
+    <bean id="securityProvider" class="${security.provider}">
+        <constructor-arg name="entrustActive" value="${entrust.active}"/>
+        <property name="ldapURL" value="${ldap.url}"/>
+        <property name="ldapURLCambioPass" value="${ldap.urlCambioPass}"/>
+        <property name="ldapUserDN" value="${ldap.userDN}"/>
+        <property name="ldapBaseDN" value="${ldap.baseDN}"/>
+        <property name="ldapPass" value="${ldap.pass}"/>
+        <property name="ldapBase" value="${ldap.base}"/>
+    </bean>
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="">
+    <select id="ES_PRIMER_LOGIN"
+        parameterType="cl.bice.gestionactas.web.springmvc.changepass.ValidateDAO"
+        statementType="CALLABLE">
+        { call ADB_ADMIN.ADB_PAC_UTILES.ES_PRIMER_LOGIN(
+            #{CAMPO, javaType=String, jdbcType=VARCHAR, mode=IN},
+            #{ESTADO, javaType=int, jdbcType=INTEGER, mode=OUT},
+            #{DESCRIPCION, javaType=String, jdbcType=VARCHAR, mode=OUT}
+        ) }
+    </select>
+    <select id="VALIDA_PASSWORD_PRE_AD"
+        parameterType="cl.bice.gestionactas.web.springmvc.changepass.ValidateDAO"
+        statementType="CALLABLE">
+        { call ADB_ADMIN.ADB_PAC_UTILES.VALIDA_PASSWORD_PRE_AD(
+            #{CAMPO, javaType=String, jdbcType=VARCHAR, mode=IN},
+            #{ESTADO, javaType=int, jdbcType=INTEGER, mode=OUT},
+            #{DESCRIPCION, javaType=String, jdbcType=VARCHAR, mode=OUT}
+        ) }
+    </select>
+    <select id="ACTUALIZA_PRIMER_LOGIN"
+        parameterType="cl.bice.gestionactas.web.springmvc.changepass.ValidateDAO"
+        statementType="CALLABLE">
+        { call ADB_ADMIN.ADB_PAC_UTILES.ACTUALIZA_PRIMER_LOGIN(
+            #{CAMPO, javaType=String, jdbcType=VARCHAR, mode=IN},
+            #{ESTADO, javaType=int, jdbcType=INTEGER, mode=OUT},
+            #{DESCRIPCION, javaType=String, jdbcType=VARCHAR, mode=OUT}
+        ) }
+    </select>
+</mapper>

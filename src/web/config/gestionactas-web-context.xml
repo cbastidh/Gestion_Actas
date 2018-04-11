@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Date: 01-2016
+  ~ Neoptera SPA - Chile Copyright (c) 2016.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<bean id="propertyConfigurer" class="cl.bice.gestionactas.spring.factory.ConfigurablePropertyPlaceholder">
+		<property name="propertyLocationSystemProperty" value="DOMAIN_HOME" />
+		<property name="defaultPropertyFileName" value="gestionactas-web-context.properties" />
+		<property name="ignoreResourceNotFound" value="false"/>
+	</bean>
+
+    <bean id="gaJndiTemplate" class="org.springframework.jndi.JndiTemplate">
+        <property name="environment">
+            <props>
+                <prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory</prop>
+                <prop key="java.naming.provider.url">${ejb.provider.url}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="loginSvc" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="gab_LoginEJBRemote#cl.bice.gestionactas.ejb.remote.LoginEJBRemote"/>
+        <property name="jndiTemplate" ref="gaJndiTemplate"/>
+        <property name="cache" value="${ejb.cache}"/>
+    </bean>
+
+    <bean id="menuSvc" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="gab_MenuEJBRemote#cl.bice.gestionactas.ejb.remote.MenuEJBRemote"/>
+        <property name="jndiTemplate" ref="gaJndiTemplate"/>
+        <property name="cache" value="${ejb.cache}"/>
+    </bean>
+
+    <bean id="userSvc" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="gab_UserEJBRemote#cl.bice.gestionactas.ejb.remote.UserEJBRemote"/>
+        <property name="jndiTemplate" ref="gaJndiTemplate"/>
+        <property name="cache" value="${ejb.cache}"/>
+    </bean>
+
+    <bean id="gestorDocumentalSvc" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="gab_GestorDocumentalEJBRemote#cl.bice.gestionactas.ejb.remote.GestorDocumentalEJBRemote"/>
+        <property name="jndiTemplate" ref="gaJndiTemplate"/>
+        <property name="cache" value="${ejb.cache}"/>
+    </bean>
+
+    <bean id="parametrosEstaticosSvc" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="gab_ParametrosEstaticosEJBRemote#cl.bice.gestionactas.ejb.remote.ParametrosEstaticosEJBRemote"/>
+        <property name="jndiTemplate" ref="gaJndiTemplate"/>
+        <property name="cache" value="${ejb.cache}"/>
+    </bean>
+
+</beans>

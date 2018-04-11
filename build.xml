@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="gestionactas" default="generate-ear" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property file="build.properties"/>
+
+	<condition property="jdk.home" value="${jdk.home.macosx}">
+		<os family="mac"/>
+	</condition>
+
+
+	<condition property="jdk.home" value="${jdk.home.unix}">
+		<and>
+			<os family="unix"/>
+			<not>
+				<os family="mac"/>
+			</not>
+		</and>
+	</condition>
+
+	<condition property="jdk.home" value="${jdk.home.win}">
+		<and>
+			<os family="windows"/>
+			<not>
+				<os family="mac"/>
+			</not>
+			<not>
+				<os family="unix"/>
+			</not>
+		</and>
+	</condition>
+
+	<echo message="Mensaje ${jdk.home}"/>
+
+	<fail message="Se debe configurar 'jdk.home' en build.properties.">
+		<condition>
+			<not>
+				<available file="${jdk.home}/jre/lib/rt.jar"/>
+			</not>
+		</condition>
+	</fail>
+
+	<property name="report.dir" location="build/report"/>
+	<property name="report.junit.xml.dir" location="${report.dir}/junit/xml"/>
+	<property name="report.junit.xml.testcase.dir" location="${report.dir}/junit/xml/testcases"/>
+	<property name="report.junit.html.dir" location="${report.dir}/junit/html"/>
+
+	<path id="jdk.classpath">
+		<fileset dir="${jdk.home}">
+			<include name="jre/lib/alt-rt.jar"/>
+			<include name="jre/lib/charsets.jar"/>
+			<include name="jre/lib/deploy.jar"/>
+			<include name="jre/lib/ext/dnsns.jar"/>
+			<include name="jre/lib/javaws.jar"/>
+			<include name="jre/lib/jce.jar"/>
+			<include name="jre/lib/jsse.jar"/>
+			<include name="jre/lib/ext/localedata.jar"/>
+			<include name="jre/lib/management-agent.jar"/>
+			<include name="jre/lib/plugin.jar"/>
+			<include name="jre/lib/resources.jar"/>
+			<include name="jre/lib/rt.jar"/>
+			<include name="jre/lib/ext/sunjce_provider.jar"/>
+			<include name="jre/lib/ext/sunpkcs11.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.oracle.ucm">
+		<fileset dir="internallib/oracle">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.jee.classpath">
+		<fileset dir="lib/org.glassfish">
+			<include name="javax*.jar"/>
+		</fileset>
+		<fileset dir="lib/javax.interceptor">
+			<include name="javax*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.junit.classpath">
+		<fileset dir="lib/junit">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.antlr.classpath">
+		<fileset dir="lib/antlr">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.org.jboss.logging">
+		<fileset dir="lib/org.jboss.logging">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+
+	<path id="lib.commons.classpath">
+		<fileset dir="lib/commons-io">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.common.http.classpath">
+		<fileset dir="lib/commons-httpclient">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/commons-codec">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.spring-core.classpath">
+		<fileset dir="lib/org.springframework">
+			<include name="*.jar"/>
+			<exclude name="spring-web*.jar"/>
+		</fileset>
+		<fileset dir="lib/aopalliance">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.aspectj">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/cglib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.spring-web.classpath">
+		<fileset dir="lib/org.springframework">
+			<include name="spring-web*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.spring-security.classpath">
+		<fileset dir="lib/org.springframework.security">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.springframework.ldap">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+
+	<path id="lib.hibernate.classpath">
+		<fileset dir="lib/org.hibernate">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.hibernate.common">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.hibernate.javax.persistence">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.jboss.logging">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/dom4j">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.javassist">
+		<fileset dir="lib/org.javassist">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.hibernate.pesistence">
+		<fileset dir="lib/org.hibernate.javax.persistence">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.google.classpath">
+		<fileset dir="lib/com.google.code.gson">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/com.google.guava">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.hamcrest.classpath">
+		<fileset dir="lib/org.hamcrest">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.org.sl4j.classpath">
+		<fileset dir="lib/org.slf4j">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.neoptera-core.classpath">
+		<fileset dir="internallib/cl.neoptera.core">
+			<include name="neoptera-core-25.47.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.neoptera-ejb.classpath">
+		<fileset dir="internallib/cl.neoptera.core">
+			<include name="neoptera-core-ejb-25.47.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.servlet.classpath">
+		<fileset dir="lib/javax.servlet">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.log4j.classpath">
+		<fileset dir="lib/log4j">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="lib/org.slf4j">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.mybatis.classpath">
+		<fileset dir="lib/mybatis">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="lib.apache.commons.lang3.classpath">
+		<fileset dir="lib/org.apache.commons">
+			<include name="commons-lang3-3.1.jar"/>
+		</fileset>
+	</path>
+
+	<path id="libs.client.classpath">
+		<path refid="lib.google.classpath"/>
+	</path>
+
+	<path id="library.client.classpath">
+		<path refid="jdk.classpath"/>
+		<path refid="libs.client.classpath"/>
+	</path>
+
+	<path id="libs.ejb.classpath">
+		<path refid="lib.commons.classpath"/>
+		<path refid="lib.spring-core.classpath"/>
+		<path refid="lib.spring-security.classpath"/>
+		<path refid="lib.org.jboss.logging"/>
+		<path refid="lib.hibernate.classpath"/>
+		<path refid="lib.google.classpath"/>
+		<path refid="lib.org.sl4j.classpath"/>
+		<path refid="lib.oracle.ucm"/>
+		<path refid="lib.common.http.classpath"/>
+		<path refid="lib.javassist"/>
+		<path refid="lib.log4j.classpath"/>
+		<path refid="lib.mybatis.classpath"/>
+		<path refid="lib.apache.commons.lang3.classpath"/>
+	</path>
+
+	<path id="library.ejb.classpath">
+		<path refid="library.client.classpath"/>
+		<path refid="lib.jee.classpath"/>
+		<path refid="lib.neoptera-core.classpath"/>
+		<path refid="lib.neoptera-ejb.classpath"/>
+		<path refid="libs.ejb.classpath"/>
+		<pathelement location="build/classes-client"/>
+		<path refid="lib.common.http.classpath"/>
+		<path refid="lib.apache.commons.lang3.classpath"/>
+	</path>
+
+	<path id="libs.web.classpath">
+		<path refid="lib.apache.commons.lang3.classpath"/>
+		<path refid="lib.spring-core.classpath"/>
+		<path refid="lib.spring-security.classpath"/>
+		<path refid="lib.spring-web.classpath"/>
+		<path refid="lib.commons.classpath"/>
+		<path refid="lib.servlet.classpath"/>
+		<path refid="lib.neoptera-core.classpath"/>
+		<path refid="lib.google.classpath"/>
+		<path refid="lib.log4j.classpath"/>
+		<path refid="lib.mybatis.classpath"/>
+		<path refid="lib.javassist"/>
+	</path>
+
+	<path id="library.web.classpath">
+		<path refid="lib.jee.classpath"/>
+		<path refid="lib.servlet.classpath"/>
+		<path refid="libs.web.classpath"/>
+		<path refid="lib.org.sl4j.classpath"/>
+		<pathelement location="build/classes-ejb"/>
+		<pathelement location="build/classes-client"/>
+	</path>
+
+	<path id="test-config.classpath">
+		<pathelement location="src/test/config"/>
+	</path>
+
+	<path id="library.test.classpath">
+		<path refid="test-config.classpath"/>
+		<path refid="lib.junit.classpath"/>
+		<path refid="lib.hamcrest.classpath"/>
+		<path refid="library.ejb.classpath"/>
+		<path refid="library.web.classpath"/>
+		<pathelement location="build/classes-web"/>
+		<pathelement location="build/classes-client"/>
+		<pathelement location="build/classes-ejb"/>
+	</path>
+
+	<target name="resolve" description="Obtiene las librerias desde artifactoy y mvn repo">
+		<ivy:retrieve pattern="lib/[organisation]/[module]-[revision].[ext]" />
+	</target>
+
+
+
+	<target name="clearcache" description="Limpia el cache de ivy y elimina la carpeta lib">
+		<ivy:cleancache />
+		<delete dir="lib" failonerror="false"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="build" failonerror="false"/>
+	</target>
+
+	<target name="compile" depends="compile-client,compile-ejb,compile-web">
+	</target>
+
+	<target name="compile-client">
+		<mkdir dir="build/classes-client"/>
+		<javac srcdir="src/client/java"
+               destdir="build/classes-client"
+               debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true"
+               includeantruntime="false"
+               encoding="ISO-8859-1"
+               executable="${jdk.home}/bin/javac">
+			<compilerarg line="${compiler.args}"/>
+			<classpath refid="library.client.classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile-ejb">
+		<mkdir dir="build/classes-ejb"/>
+		<javac srcdir="src/ejb/java"
+               destdir="build/classes-ejb"
+               debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true"
+               includeantruntime="false"
+               encoding="ISO-8859-1"
+               executable="${jdk.home}/bin/javac">
+			<compilerarg line="${compiler.args}"/>
+			<classpath refid="library.ejb.classpath"/>
+			<classpath refid="lib.hibernate.pesistence"/>
+		</javac>
+	</target>
+
+	<target name="compile-web">
+		<mkdir dir="build/classes-web"/>
+		<javac srcdir="src/web/java"
+               destdir="build/classes-web"
+               debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true"
+               includeantruntime="false"
+               encoding="ISO-8859-1"
+               executable="${jdk.home}/bin/javac">
+			<compilerarg line="${compiler.args}"/>
+			<classpath refid="library.web.classpath"/>
+
+		</javac>
+		<copy todir="build/classes-web">
+			<fileset dir="src/web/java">
+				<include name="SqlMapConfig.xml"/>
+				<include name="SqlServer_sp.xml"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile-test">
+		<mkdir dir="build/classes-test"/>
+		<javac srcdir="src/test/java"
+               destdir="build/classes-test"
+               debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true"
+               includeantruntime="false"
+               encoding="ISO-8859-1"
+               executable="${jdk.home}/bin/javac">
+			<compilerarg line="${compiler.args}"/>
+			<classpath refid="library.test.classpath"/>
+		</javac>
+	</target>
+
+
+	<target name="ear" depends="compile,jar-client,ear-ejb,ear-web">
+	</target>
+
+	<target name="jar-client">
+		<jar jarfile="build/gestionactas-client.jar">
+			<fileset dir="build/classes-client"/>
+		</jar>
+		<jar jarfile="build/gestionactas-ejb-client.jar">
+			<fileset dir="build/classes-ejb">
+				<include name="**/*EJBRemote.class"/>
+				<include name="**/*Enum.class"/>
+				<include name="**/*Enum$*.class"/>
+				<include name="**/*State.class"/>
+				<include name="**/*State$*.class"/>
+				<include name="**/*VO.class"/>
+				<include name="**/*VO$*.class"/>
+				<include name="**/*Exception.class"/>
+				<include name="**/*Exception$*.class"/>
+				<include name="**/*Svc.class"/>
+				<include name="**/*Svc$*.class"/>
+			</fileset>
+		</jar>
+
+		<jar jarfile="build/gestionactas-web.jar">
+			<fileset dir="build/classes-web">
+				<include name="**/data/*.class"/>
+				<include name="**/listener/*.class"/>
+				<include name="**/*EntryProcessor.class"/>
+				<include name="**/WebUser.class"/>
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="ear-ejb" depends="compile">
+
+		<copy todir="build/deploy/gestionactas-ejb.ear">
+			<fileset dir="src/ejb/jee-ear/gestionactas-ejb.ear"/>
+		</copy>
+
+		<copy todir="build/deploy/gestionactas-ejb.ear/lib">
+			<path refid="libs.ejb.classpath"/>
+			<fileset dir="build">
+				<include name="gestionactas-client.jar"/>
+			</fileset>
+		</copy>
+
+		<copy todir="build/deploy/gestionactas-ejb.ear">
+			<path refid="lib.neoptera-core.classpath"/>
+			<path refid="lib.neoptera-ejb.classpath"/>
+		</copy>
+
+		<copy todir="build/deploy/gestionactas-ejb.ear/gestionactas-ejb.jar">
+			<fileset dir="build/classes-ejb"/>
+		</copy>
+
+		<jar jarfile="build/deploy/gestionactas-ejb.ear/lib/gestionactas-ejb-config.jar">
+			<fileset dir="src/ejb/config"/>
+		</jar>
+	</target>
+
+	<target name="ear-web" depends="compile">
+
+		<copy todir="build/deploy/gestionactas-web.ear">
+			<fileset dir="src/web/jee-ear/gestionactas-web.ear"/>
+		</copy>
+
+		<copy todir="build/deploy/gestionactas-web.ear/gestionactas-web.war/WEB-INF/classes">
+			<fileset dir="build/classes-web"/>
+		</copy>
+
+		<copy todir="build/deploy/gestionactas-web.ear/gestionactas-web.war/WEB-INF/lib">
+			<path refid="libs.web.classpath"/>
+			<fileset dir="build">
+				<include name="gestionactas-client.jar"/>
+				<include name="gestionactas-ejb-client.jar"/>
+			</fileset>
+		</copy>
+
+		<jar jarfile="build/deploy/gestionactas-web.ear/gestionactas-web.war/WEB-INF/lib/gestionactas-web-config.jar">
+			<fileset dir="src/web/config"/>
+		</jar>
+
+	</target>
+
+	<target name="deploy" depends="deploy-ejb, deploy-web"/>
+
+	<target name="deploy-ejb" depends="ear, do-deploy-ejb"/>
+
+	<target name="deploy-web" depends="ear, do-deploy-web"/>
+
+	<target name="do-deploy-ejb">
+		<echo level="info">Deploy --> EJB</echo>
+		<property name="ear.upload" value="false"/>
+		<wldeploy action="deploy"
+                  upload="${ear.upload}"
+                  name="${app}-ejb"
+                  source="build/deploy/${app}-ejb.ear"
+                  user="${weblogic.user}"
+                  password="${weblogic.password}"
+                  verbose="false"
+                  adminurl="${weblogic.url}"
+                  debug="true"
+                  targets="${weblogic.target}"/>
+	</target>
+
+	<target name="do-deploy-web">
+		<echo level="info">Deploy ---> Web</echo>
+		<property name="ear.upload" value="false"/>
+		<wldeploy action="deploy"
+                  upload="${ear.upload}"
+                  name="${app}-web"
+                  source="build/deploy/${app}-web.ear"
+                  user="${weblogic.user}"
+                  password="${weblogic.password}"
+                  verbose="false"
+                  adminurl="${weblogic.url}"
+                  debug="true"
+                  targets="${weblogic.target}"/>
+	</target>
+
+	<target name="generate-ear" depends="clean, ear">
+		<mkdir dir="build/ears"/>
+		<zip destfile="build/ears/${app}-web.ear" basedir="build/deploy/${app}-web.ear">
+			<!--<exclude name="**/assets/**"/>-->
+		</zip>
+		<zip destfile="build/ears/${app}-ejb.ear" basedir="build/deploy/${app}-ejb.ear"/>
+		<tar destfile="build/ears/${app}-assets.tar.gz" compression="gzip" basedir="build/deploy/${app}-web.ear">
+			<include name="**/assets/**"/>
+		</tar>
+	</target>
+</project>

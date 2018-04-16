@@ -89,7 +89,6 @@ public interface DocumentoDAO extends GenericDAO<Long, DocumentoBO> {
                                                   @GenericWhere(element = "*first") int first,
                                                   @GenericWhere(element = "*max") int max);
 
-
     @GenericQuery(query = "select d from DocumentoBO d, UserDocumentVisibilityBO vd where d.tipoDocumento.id = vd.tipoDocumentoBO.id " +
             "and vd.userBO.id = :userId and d.id in :idList order by d.fechaCreacion desc")
     List<DocumentoBO> obtenerDocumentosRecientes(@GenericWhere(element = "d.estado") Boolean estado,
@@ -130,7 +129,7 @@ public interface DocumentoDAO extends GenericDAO<Long, DocumentoBO> {
     
     @GenericQuery(query = "select d from DocumentoBO d where d.id in(:ids) and d.estado = true order by d.fechaCreacion desc")
     List<DocumentoBO> obtenerDocByIdsFecCreaDesc(@GenericWhere(element = ":ids") List<Long> ids);
-
+    
     @GenericQuery(query = "select d from DocumentoBO d where d.id in(:ids) and d.estado = true order by d.titulo asc")
     List<DocumentoBO> obtenerDocByIdsTitAsc(@GenericWhere(element = ":ids") List<Long> ids);
 

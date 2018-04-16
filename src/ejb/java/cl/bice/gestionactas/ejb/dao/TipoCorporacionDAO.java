@@ -14,6 +14,7 @@ import java.util.List;
  * Project: Gestion Actas
  */
 public interface TipoCorporacionDAO extends GenericDAO<Long, TipoCorporacionBO>  {
+	
     @GenericQuery(query = "select new cl.bice.gestionactas.ejb.vo.TipoCorporacionVO(d.id, d.tipoCorporacion, d.nmonic)" +
             " from TipoCorporacionBO d order by d.tipoCorporacion")
     public List<TipoCorporacionVO> obtenerTipoCorporacion(@GenericWhere(element = "d.estado") Boolean estado);
@@ -22,4 +23,7 @@ public interface TipoCorporacionDAO extends GenericDAO<Long, TipoCorporacionBO> 
             " from TipoCorporacionBO d ")
     public TipoCorporacionVO obtenerTipoCorporacionByNmonic(@GenericWhere(element = "d.estado") Boolean estado,
                                                             @GenericWhere(element = "d.nmonic") String nmonic);
+    
+    @GenericQuery(query = "select t from TipoCorporacionBO t where t.tipoCorporacion = 'Comite Ejecutivo' ", max = 1)
+    public TipoCorporacionBO obtenerComiteEjecutivoId();
 }
